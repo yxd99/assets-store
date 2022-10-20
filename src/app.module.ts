@@ -6,6 +6,8 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { CloudinaryProvider } from './cloudinary/cloudinary.provider';
 import { GendersModule } from './genders/genders.module';
 import { Gender } from './genders/entities/gender.entity';
+import { TitlesModule } from './titles/titles.module';
+import { Title } from './titles/entities/title.entity';
 
 @Module({
   imports: [
@@ -20,12 +22,14 @@ import { Gender } from './genders/entities/gender.entity';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       entities: [
-        Gender
+        Gender,
+        Title,
       ],
       synchronize: true
     }),
     CloudinaryModule,
     GendersModule,
+    TitlesModule,
   ],
   providers: [
     CloudinaryProvider
