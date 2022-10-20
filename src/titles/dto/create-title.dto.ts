@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsDateString, IsString, MaxLength, MinLength } from 'class-validator';
+import { ArrayMinSize, IsArray, IsDateString, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class CreateTitleDto {
   @IsString()
@@ -24,7 +24,7 @@ export class CreateTitleDto {
   productionCompany: string;
 
   @IsArray()
-  @MinLength(1)
-  @ApiProperty({ type: ['number'], minLength: 1})
+  @ArrayMinSize(1)
+  @ApiProperty({ type: ['number'], minItems: 1})
   genders: number[];
 }

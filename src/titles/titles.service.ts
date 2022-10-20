@@ -1,26 +1,48 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateTitleDto } from './dto/create-title.dto';
 import { UpdateTitleDto } from './dto/update-title.dto';
+import { Title } from './entities/title.entity';
 
 @Injectable()
 export class TitlesService {
-  create(createTitleDto: CreateTitleDto) {
-    return 'This action adds a new title';
+  constructor(
+    @InjectRepository(Title)
+    private readonly titleRepository: Repository<Title>
+  ){}
+
+  async create(createTitleDto: CreateTitleDto): Promise<object> {
+    await this.titleRepository.save(createTitleDto);
+    return {
+      message: `title \"${createTitleDto.name}\" has been added`
+    }
   }
 
-  findAll() {
-    return `This action returns all titles`;
+  async findAll(): Promise<Title[]> {
+    return await this.titleRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} title`;
+  async findOne(id: number): Promise<Title> {
+    const title = await this.titleRepository.findOneBy({id});
+    if(!(!!title)) throw new NotFoundException({ message: `title \"${id}\" doesn't exist` });
+    return title;
   }
 
-  update(id: number, updateTitleDto: UpdateTitleDto) {
-    return `This action updates a #${id} title`;
+  async update(id: number, updateTitleDto: UpdateTitleDto): Promise<object> {
+    await this.findOne(id);
+    if(!(!!(Object.keys(updateTitleDto).length))) throw new BadRequestException({ message: `Information to update was not sent` });
+    await this.titleRepository.update(id, updateTitleDto);
+    return {
+      message: `title \"${id}\" has been successfully updated`
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} title`;
+  async remove(id: number): Promise<object> {
+    await this.findOne(id);
+    await this.titleRepository.softDelete(id);
+    return {
+      message: `title \"${id}\" has been removed`
+    }
   }
 }
