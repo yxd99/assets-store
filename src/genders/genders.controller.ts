@@ -130,6 +130,22 @@ export class GendersController {
       ]
     }
   })
+
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    schema: {
+      allOf: [
+        {
+          properties: {
+            message: {
+              type: 'string',
+              default: 'Information to update was not sent'
+            }
+          }
+        }
+      ]
+    }
+  })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
     schema: {
