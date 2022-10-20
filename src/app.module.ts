@@ -4,6 +4,8 @@ import { ConfigModule } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { CloudinaryProvider } from './cloudinary/cloudinary.provider';
+import { GendersModule } from './genders/genders.module';
+import { Gender } from './genders/entities/gender.entity';
 
 @Module({
   imports: [
@@ -17,10 +19,13 @@ import { CloudinaryProvider } from './cloudinary/cloudinary.provider';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [],
+      entities: [
+        Gender
+      ],
       synchronize: true
     }),
     CloudinaryModule,
+    GendersModule,
   ],
   providers: [
     CloudinaryProvider
