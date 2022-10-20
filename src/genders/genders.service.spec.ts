@@ -52,14 +52,14 @@ describe('GendersService', () => {
     it('should successfuly created gender', async () => {
       const process = await service.create(gender);
       expect(process).toStrictEqual({
-        message: `gender "${gender.name}" has been added`,
+        message: `gender \"${gender.name}\" has been added`,
       });
     });
 
     it('should reject because the name is duplicate / exist', async () => {
       jest.spyOn(genderRepository, 'findOneBy').mockImplementationOnce(() => {
         throw new BadRequestException({
-          message: `The gender "${gender.name}" already exist`,
+          message: `The gender \"${gender.name}\" already exist`,
         });
       });
       try {
@@ -67,7 +67,7 @@ describe('GendersService', () => {
       } catch (e) {
         expect(e).toStrictEqual(
           new BadRequestException({
-            message: `The gender "${gender.name}" already exist`,
+            message: `The gender \"${gender.name}\" already exist`,
           }),
         );
       }
@@ -86,7 +86,7 @@ describe('GendersService', () => {
     it('should reject because the name is duplicate / exist', async () => {
       jest.spyOn(genderRepository, 'findOneBy').mockImplementationOnce(() => {
         throw new BadRequestException({
-          message: `The gender "${gender.name}" already exist`,
+          message: `The gender \"${gender.name}\" already exist`,
         });
       });
       try {
@@ -94,7 +94,7 @@ describe('GendersService', () => {
       } catch (e) {
         expect(e).toStrictEqual(
           new BadRequestException({
-            message: `The gender "${gender.name}" already exist`,
+            message: `The gender \"${gender.name}\" already exist`,
           }),
         );
       }
@@ -154,7 +154,7 @@ describe('GendersService', () => {
     it('should gender has been deleted', async () => {
       jest.spyOn(genderRepository, 'findOneBy').mockImplementationOnce(() => Promise.resolve(gender));
       expect(await service.remove(gender.id)).toStrictEqual({
-        message: `Gender with id ${gender.id} delete`,
+        message: `Gender with id \"${gender.id}\" delete`,
       });
     });
 

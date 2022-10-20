@@ -16,7 +16,7 @@ export class GendersService {
     await this.validateIfExistGenderName(createGenderDto.name);
     const res = await this.genderRepository.save(createGenderDto);
     return {
-      message: `gender "${res.name}" has been added`,
+      message: `gender \"${res.name}\" has been added`,
     };
   }
 
@@ -39,7 +39,7 @@ export class GendersService {
     await this.validateIfExistGenderName(updateGenderDto.name);
     await this.genderRepository.update(id, updateGenderDto);
     return {
-      message: `Gender "${oldGender.name}" change to "${updateGenderDto.name}"`,
+      message: `Gender \"${oldGender.name}\" change to \"${updateGenderDto.name}\"`,
     };
   }
 
@@ -48,7 +48,7 @@ export class GendersService {
     await this.genderRepository.softDelete(id);
 
     return {
-      message: `Gender with id ${id} delete`,
+      message: `Gender with id \"${id}\" delete`,
     };
   }
 
@@ -58,7 +58,7 @@ export class GendersService {
     });
     if (!!gender)
       throw new BadRequestException({
-        message: `The gender "${name}" already exists`,
+        message: `The gender \"${name}\" already exists`,
       });
   }
 }
